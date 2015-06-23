@@ -1,0 +1,72 @@
+<project name="SampleIBMJava" basedir="." default="main">
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jars" /> 
+	<property name="main-class" value="sample.HelloWorld" />
+<!-- Setting the Classpath for compliations
+	-->
+	<path id="classpath" description="Sets the classpath for the Java program">
+		<fileset dir="." />
+	</path>
+	<!-- Clean Target action 
+		This will just delete the dist directory
+	-->
+	<target name="clean" description="Remove all compiled files and binaries.">
+		<delete dir="${build.dir}" />
+	</target>
+	<!-- Compile the sources
+		It seems like this just goes through and compiles each file.
+	-->
+	<target name="compile" description="Compile all source code files in src">
+		<mkdir dir="${classes.dir}" />
+		<javac 
+			includeantruntime="false" 
+			srcdir="${src.dir}" 
+			destdir="${classes.dir}" />
+	</target>
+	<!-- Create the JAR file
+		There is no need to have a manifest.txt as ant will generate it for you 
+		when the JAR file is created. 
+	-->
+	<target name="jar" depends="compile" description="Build the distributable JAR file">
+		<jar
+			destfile="${jar.dir}/${ant.project.name}.jar"
+			basedir="${classes.dir}" >
+			<manifest>
+				<attribute 
+					name="Main-Class" 
+					value="${main-class}" /> 
+			</manifest>
+		</jar>
+	</target>
+	<!-- Run the JAR file!
+	-->
+	<target name="run-jar" depends="jar" description="Run the JAR file that was compiled.">
+		<echo message="Running the JAR file." />
+		<java
+			fork="true"
+			classname="${main-class}" >
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+	<!-- Run the CLASS file!
+	-->
+	<target name="run-class" depends="compile" description="Run the CLASS file that was compiled.">
+		<echo message="Running the class file." />
+		<java
+			fork="true"
+			failonerror="yes"
+			dir="${classes.dir}"
+			classname="${main-class}" />
+	</target>
+	<!-- Clean and then Build the project 
+	-->
+	<target name="clean-build" depends="clean,jar" description="Clean binaries, and recreate the JAR file" />
+	<!-- The default target, clean and run.
+	-->
+	<target name="main" depends="clean,compile" description="[Default] Clean binaries, and run the application after compilation." />
+</project>

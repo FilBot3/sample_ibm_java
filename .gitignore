@@ -1,0 +1,5 @@
+/build/
+/pkg/
+/dist/
+*~
+*.sw[a-z0-9]
