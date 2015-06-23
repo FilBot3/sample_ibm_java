@@ -9,6 +9,6 @@ class HelloWorld {
 	public static void main(String[] args) {
 		System.out.println("Hello World from IBM Java");
 		System.out.println("Fartfkfyhjetyiryuotuiryt.");
-		System.out.println("Jenkins is annoying. ")
+		System.out.println("Jenkins is annoying. ");
 	}
 }
