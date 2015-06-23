@@ -3,7 +3,9 @@ Sample IBM Java Project
 
 ## Description  
 
-A simple HelloWorld app written in Java to test out IBM Java's ability to compile projcts. 
+A simple HelloWorld app written in Java to test out IBM Java's ability to compile projcts.   
+
+This project will build upon a push, or merge into the master branch. 
 
 ## Usage  
 
