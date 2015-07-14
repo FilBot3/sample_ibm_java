@@ -55,7 +55,12 @@ namespace :ant do
   desc "Run the JAR file"
   task :run_jar => [ :jar ] do
     puts "Running the JAR file"
-    ant.java :fork => "yes", :classname => MAIN_CLASS, classpath{ fileset(:refid => 'classpath', :location => "#{JAR_DIR}/#{PROJECT_NAME}.jar") }
+    ant.java :fork => "yes", :classname => MAIN_CLASS do
+      classpath do
+        path(:refid => 'classpath') 
+        path(:location => "#{JAR_DIR}/#{PROJECT_NAME}.jar") 
+      end
+    end
   end
 end
 
