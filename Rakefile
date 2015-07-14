@@ -38,9 +38,8 @@ namespace :ant do
 
   desc "Build the JARs"
   task :jar => [ :compile ] do
-    ant.jar :destfile => "#{JAR_DIR}/#{PROJECT_NAME}.jar", :basedir => CLASSES_DIR, :manifest => :attribute do
-          "Main-Class" => MAIN_CLASS  
-      end
+    ant.jar :destfile => "#{JAR_DIR}/#{PROJECT_NAME}.jar", :basedir => CLASSES_DIR do 
+      manifest { attribute(:name => "Main-Class", :value => MAIN_CLASS) }  
     end
   end
 
@@ -56,11 +55,7 @@ namespace :ant do
   desc "Run the JAR file"
   task :run_jar => [ :jar ] do
     puts "Running the JAR file"
-    ant.java :fork => "yes",
-      :classname => MAIN_CLASS,
-      :classpath do
-        :refid => 'classpath', :location => "#{JAR_DIR}/#{PROJECT_NAME}.jar"
-    end
+    ant.java :fork => "yes", :classname => MAIN_CLASS, classpath{ fileset(:refid => 'classpath', :location => "#{JAR_DIR}/#{PROJECT_NAME}.jar") }
   end
 end
 
